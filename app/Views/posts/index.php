@@ -20,7 +20,7 @@
                 <tr>
                     <td><?= $v->id ?></td>
                     <td><?= $v->name ?></td>
-                    <td>tags</td>
+                    <td><?= $v->tags ?></td>
                     <td class="actions">
                         <?= anchor(site_url('/posts/delete/'.$v->id), 'Delete', ['onclick' => 'return confirm("onfirm delete ?")', 'class' => 'btn btn-danger']) ?> -
                         <?= anchor(site_url('/posts/edit/'.$v->id),'Edit', ['class' => 'btn btn-success'])?>

@@ -9,16 +9,23 @@ class PostsController extends BaseController
 {
     private $postModel;
     private $tagModel;
+    private $postTagModel;
 
     public function __construct()
     {
         $this->postModel = Factories::models('PostModel');
         $this->tagModel = Factories::models('TagModel');
+        $this->postTagModel = Factories::models('PostTagModel');
     }
 
     public function index()
     {
-        $posts = $this->postModel->findAll();
+        $posts = $this->postModel
+            ->select('posts.*, GROUP_CONCAT(tags.name) as tags')
+            ->join('posts_tags', 'posts_tags.post_id = posts.id')
+            ->join('tags', 'tags.id = posts_tags.tag_id')
+            ->groupBy('posts.id')
+            ->findAll();
         return view('posts/index', compact('posts'));
     }
 
@@ -47,5 +54,12 @@ class PostsController extends BaseController
         }
         $tags = $this->tagModel->select('tags.id, tags.name')->join('posts_tags', 'posts_tags.tag_id = tags.id')->where('posts_tags.post_id', $id)->findAll();
         return view('posts/edit', compact('post', 'tags'));
+    }
+
+    public function delete(int $id)
+    {
+        $this->postTagModel->where('post_id', $id)->delete();
+        $this->postModel->delete($id);
+        return redirect()->to('/posts')->with('success', 'Suppression avec success');
     }
 }

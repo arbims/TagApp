@@ -1,13 +1,13 @@
 <?php if (session()->has('success')): ?>
-    <div class="alert alert-success alert-dismissible fade show">
+    <div class="alert alert-success">
         <?= session("success") ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentNode.remove();"></button>
+        <span class="close" onclick="this.parentNode.remove();">x</span>
     </div>
 <?php endif; ?>
 
 <?php if (session()->has('error')): ?>
-    <div class="alert alert-danger alert-dismissible fade show">
+    <div class="alert alert-danger">
         <?= session("error") ?>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" onclick="this.parentNode.remove();"></button>
+        <span class="close" onclick="this.parentNode.remove();">x</span>
     </div>
 <?php endif; ?>
